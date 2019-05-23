@@ -1,0 +1,35 @@
+{{ extend './layout.html' }}
+
+{{ block "main" }}
+
+<ol class="breadcrumb">
+	<li><a href="/admin">管理首页</a></li>
+	<li><span>用户列表</span></li>
+</ol>
+
+<h3>用户列表</h3>
+
+<table class="table table-hover table-striped">
+
+	<tr>
+		<th>ID</th>
+		<th>分类名称</th>
+		<th>操作</th>
+	</tr>
+
+	{{ each category }}
+	<tr>
+		<td>{{$value.id.toString()}}</td>
+		<td>{{$value.name}}</td>
+		<td>
+			<a href="/admin/category/edit?id={{$value.id.toString()}}">编辑</a>
+			<a href="/admin/category/delete?id={{$value.id.toString()}}">删除</a>
+		</td>
+	</tr>
+	{{ /each }}
+
+</table>
+
+{{ include "./page.html" }}
+
+{{ /block }}

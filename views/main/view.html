@@ -1,0 +1,84 @@
+{{ extend "./layout.html" }}
+
+{{ block "content" }}
+<div class="listBox">
+	<h1>{{content.title}}</h1>
+	<p class="colDefault">
+		作者：<span class="colInfo">{{content.user.username}}</span> -
+		时间：<span class="colInfo">{{content.addTime}}</span> -
+		阅读：<span class="colInfo">{{content.views}}</span> -
+		评论：<span class="colInfo"></span>
+	</p>
+	<dfn>
+		{{content.content}}
+		<!-- {{content._id}} -->
+	</dfn>
+</div>
+
+<div class="listBox message">
+	<h3 class="textLeft"><strong>评论</strong> <span class="em">一共有 <em id="messageCount">0</em> 条评论</span></h3>
+
+	{{ if userInfo._id }}
+	<p class="textLeft"></p>
+	<p class="textLeft clear">
+		<form id="comment" method="">
+			<textarea id="messageContent" name="content"></textarea>
+			<input type="hidden" id="contentId" value="{{userInfo._id}}">
+			<input type="hidden" id="contentInfo" value="{{content._id}}">
+			<button id="messageBtn" class="submit">提交</button>
+		</form>
+		<script type="text/javascript">
+			$("#comment").on("submit", function(e) {
+				e.preventDefault()
+				$.ajax({
+					type: "post",
+					url: "/api/comment/post",
+					data: {
+						contentid: $('#contentId').val(),
+						contentInfo: $('#contentInfo').val(),
+						content: $('#messageContent').val()
+					},
+					success: function(data) {
+						// window.location.reload()
+						console.log(data)
+					}
+				})
+			})
+		</script>
+	</p>
+	{{else}}
+		<p class="bgDanger" style="line-height: 30px;">你还没有登录，请先登录！</p>
+		{{/if}}
+
+		<div class="messageList">
+		</div>
+
+<!-- 		<div class="pager">
+			<ul class="clear">
+				<li class="previous">
+					<a href="">上一页</a>
+				</li>
+				<li></li>
+				<li class="next">
+					<a href="">下一页</a>
+				</li>
+			</ul>
+		</div> -->
+		<br>
+		<div class="messageList">
+			<div class="messageBox">
+				<p>还没有留言</p>
+			</div>
+		</div>
+
+		<div class="messageList" style="display: block;">
+			<div class="messageBox">
+				<p class="name clear"><span class="fl">admin</span><span class="fr">2016年07月29日 17:24:01</span></p>
+				<p>哈哈</p>
+			</div>
+		</div>
+
+</div>
+
+<script src="/public/js/comment.js"></script>
+{{ /block }}

@@ -1,0 +1,95 @@
+{{extend './layout.html'}}
+
+{{block "content"}}
+
+
+
+ <!-- method="post" action="/addPicture" -->
+<!-- <form id="addPicture" class="form-horizontal" enctype="multipart/form-data">
+	<input type="file" name="picUrl" id="filename">
+	<button>提交</button>
+</form>
+<script type="text/javascript">
+	$(function(){
+		$("#addPicture button").on("submit",function(e){
+			e.preventDefault()
+			var obj = new FormData();
+			obj.append("img",$("#addPicture input").get(0).files[0]);
+			$.ajax({
+				type:"post",
+				url:"/addPicture",
+				dataType: 'json',
+				data:obj,
+				processData:false, // 不处理数据
+				contentType : false, // 不设置请求头
+				cache:false,
+				success: result=>{
+					console.log(result)
+				}
+			})			
+		})
+	})
+</script> -->
+<form action="" method="" id="imgform">
+	<input name="img" type="file">
+	<button>submit</button>
+</form>
+<script type="text/javascript">
+	$("button").on("click", function (e) {
+    e.preventDefault()
+    var obj = new FormData();
+        obj.append("img",$("#imgform input").get(0).files[0]);
+    $.ajax({
+        url:"/test",
+        type:"post",
+        data:obj,
+        processData:false, // 不处理数据
+        contentType : false, // 不设置请求头
+        cache:false,
+        success:function(data){
+            console.log(data)
+        }
+    })
+})
+</script>
+
+
+{{each contents}}
+	<div class="listBox">
+		<h1>{{$value.title}}</h1>
+		<p class="colDefault">
+			作者：<span class="colInfo">{{$value.user.username}}</span> -
+			时间：<span class="colInfo">{{$value.addTime}}</span> -
+			阅读：<span class="colInfo">{{$value.views}}</span> -
+			评论：<span class="colInfo">0</span>
+		</p>
+		<dfn>
+			<p>{{$value.description}}</p>
+		</dfn>
+		<div class="function"><a href="/view?category={{$value.id}}">阅读全文</a></div>
+	</div>
+{{/each}}
+
+
+<div class="pager">
+	<ul class="clear">
+		<li class="previous">
+			{{if page <= 1}}
+				<span>没有上一页了</span>
+			{{else}}
+			<a href="/?category={{category}}&page={{page-1}}">上一页</a>
+			{{/if}}
+		</li>
+		<li>
+			<strong>{{page}} / {{pages}}</strong>
+		</li>
+		<li class="next">
+			{{if page >= pages}}
+				<span>没有下一页了</span>
+      {{else}}
+			<a href="/?category={{category}}&page={{page+1}}">下一页</a>
+			{{/if}}
+		</li>
+	</ul>
+</div>
+{{/block}}

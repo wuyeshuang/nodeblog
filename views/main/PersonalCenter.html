@@ -1,0 +1,56 @@
+{{ extend "./layout.html" }}
+
+{{ block "content" }}
+
+	<ul class="list-group">
+		<li class="list-group-item" style="overflow: hidden;">
+			<a href="javascript:;" title="修改我的头像" style="display: block; width: 150px; height: 150px; border-radius: 50%; overflow: hidden; margin: 0 0 7px 0;">
+				<span style="display: inline-block; position: relative; overflow: hidden; border-radius: 50%;">
+					<img id="user-img" src="{{personalInfo.user_photo}}" width="100%" alt="">
+				</span>
+			</a>
+			<form action="" method="" id="imgform">
+				<input name="user_photo" type="file" id="imgfile" style="display: none;">
+			</form>
+			<button type="button" id="photo_edit" class="btn btn-default">上传</button>
+		</li>
+		<li class="list-group-item">{{personalInfo.username}}</li>
+		<li class="list-group-item">图像的数量</li>
+		<li class="list-group-item">24*7 支持</li>
+		<li class="list-group-item">每年更新成本</li>
+	</ul>
+	
+	<script type="text/javascript">
+		$("#photo_edit").hide()
+		$(function(){
+			$('#user-img').click(function(){
+        $('#imgfile').click()
+				$("#photo_edit").show(300)
+			});
+		})
+		$("#photo_edit").on("click", function (e) {
+	    e.preventDefault()
+	    var obj = new FormData();
+	        obj.append("img",$("#imgform input").get(0).files[0]);
+	    $.ajax({
+	        url:"/photo_edit",
+	        type:"post",
+	        data:obj,
+	        processData:false, // 不处理数据
+	        contentType : false, // 不设置请求头
+	        cache:false,
+	        success:function(data){
+						if(data.res_code==0){
+							alert(data.msg)
+						}else if(data.res_code==1){
+							alert(data.msg)
+							$("#user-img").attr("src",data.code.img.path)
+						}				 
+	        }
+	    })
+	})
+	</script>
+
+
+<script src="/public/js/comment.js"></script>
+{{ /block }}

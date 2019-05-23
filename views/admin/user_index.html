@@ -1,0 +1,41 @@
+{{ extend './layout.html' }}
+
+{{ block "main" }}
+
+<ol class="breadcrumb">
+	<li><a href="/admin">管理首页</a></li>
+	<li><span>用户列表</span></li>
+</ol>
+
+<h3>用户列表</h3>
+
+<table class="table table-hover table-striped">
+
+	<tr>
+		<th>ID</th>
+		<th>用户名</th>
+		<th>密码</th>
+		<th>是否是管理员</th>
+	</tr>
+
+	{{ each users }}
+	<tr>
+		<td>{{$value._id.toString()}}</td>
+		<td>{{$value.username}}</td>
+		<td>{{$value.password}}</td>
+		<td>
+			{{ if $value.isAdmin }}
+			<span style="color: green;">是</span>
+			{{else}}
+			<span style="color: red;">否</span>
+			{{/if}}
+			
+		</td>
+	</tr>
+	{{ /each }}
+
+</table>
+
+{{ include "./page.html" }}
+
+{{ /block }}
