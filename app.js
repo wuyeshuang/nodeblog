@@ -4,7 +4,7 @@ var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 var Cookies = require('cookies')
 var User = require('./models/User')
-
+//xiugai
 var app = express()
 
 app.use('/public/', express.static(path.join(__dirname, './public/')))
